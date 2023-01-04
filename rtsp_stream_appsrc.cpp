@@ -14,13 +14,13 @@ typedef struct
 
 /* called when we need to give data to appsrc */
 static void
-need_data (GstElement * appsrc, guint unused, MyContext * ctx)
+need_data (GstElement* appsrc, guint unused, MyContext* ctx)
 {
     GstBuffer *buffer;
     guint size;
     GstFlowReturn ret;
 
-    size = 385 * 288 * 2;
+    size = 385* 288* 2;
 
     buffer = gst_buffer_new_allocate (NULL, size, NULL);
 
@@ -39,9 +39,9 @@ need_data (GstElement * appsrc, guint unused, MyContext * ctx)
 }
 
 /* called when a new media pipeline is constructed. We can query the
- * pipeline and configure our appsrc */
+* pipeline and configure our appsrc */
 static void
-media_configure (GstRTSPMediaFactory * factory, GstRTSPMedia * media,
+media_configure (GstRTSPMediaFactory* factory, GstRTSPMedia* media,
                  gpointer user_data)
 {
     GstElement *element, *appsrc;
@@ -89,22 +89,22 @@ main (int argc, char *argv[])
     loop = g_main_loop_new (NULL, FALSE);
 
     /* create a server instance */
-    server = gst_rtsp_server_new ();
+    server = gst_rtsp_server_new();
 
     /* get the mount points for this server, every server has a default object
-     * that be used to map uri mount points to media factories */
+    * that be used to map uri mount points to media factories */
     mounts = gst_rtsp_server_get_mount_points (server);
 
     /* make a media factory for a test stream. The default media factory can use
-     * gst-launch syntax to create pipelines.
-     * any launch line works as long as it contains elements named pay%d. Each
-     * element with pay%d names will be a stream */
-    factory = gst_rtsp_media_factory_new ();
+    * gst-launch syntax to create pipelines.
+    * any launch line works as long as it contains elements named pay%d. Each
+    * element with pay%d names will be a stream */
+    factory = gst_rtsp_media_factory_new();
     gst_rtsp_media_factory_set_launch (factory,
                                        "( appsrc name=mysrc ! videoconvert ! x264enc ! rtph264pay name=pay0 pt=96 )");
 
     /* notify when our media is ready, This is called whenever someone asks for
-     * the media and a new pipeline with our appsrc is created */
+    * the media and a new pipeline with our appsrc is created */
     g_signal_connect (factory, "media-configure", (GCallback) media_configure,
                       NULL);
 

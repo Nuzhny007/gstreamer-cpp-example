@@ -10,14 +10,14 @@
 #define RELEASE_ELEMENT(x) if(x) {gst_object_unref(x); x = NULL;}
 
 /*
- * Number of bytes received in the chain list function when using buffer lists
+* Number of bytes received in the chain list function when using buffer lists
  */
 static guint chain_list_bytes_received;
 
 #define LOOP_COUNT 1
 
 /*
- * RTP pipeline structure to store the required elements.
+* RTP pipeline structure to store the required elements.
  */
 typedef struct
 {
@@ -33,19 +33,19 @@ typedef struct
 } rtp_pipeline;
 
 /*
- * Creates a RTP pipeline for one test.
- * @param frame_data Pointer to the frame data which is used to pass through pay/depayloaders.
- * @param frame_data_size Frame data size in bytes.
- * @param frame_count Frame count.
- * @param filtercaps Caps filters.
- * @param pay Payloader name.
- * @param depay Depayloader name.
- * @return
- * Returns pointer to the RTP pipeline.
- * The user must free the RTP pipeline when it's not used anymore.
+* Creates a RTP pipeline for one test.
+* @param frame_data Pointer to the frame data which is used to pass through pay/depayloaders.
+* @param frame_data_size Frame data size in bytes.
+* @param frame_count Frame count.
+* @param filtercaps Caps filters.
+* @param pay Payloader name.
+* @param depay Depayloader name.
+* @return
+* Returns pointer to the RTP pipeline.
+* The user must free the RTP pipeline when it's not used anymore.
  */
 static rtp_pipeline *
-rtp_pipeline_create (const guint8 * frame_data, int frame_data_size,
+rtp_pipeline_create (const guint8* frame_data, int frame_data_size,
                      int frame_count, const char *filtercaps, const char *pay, const char *depay)
 {
     gchar *pipeline_name;
@@ -110,16 +110,16 @@ rtp_pipeline_create (const guint8 * frame_data, int frame_data_size,
 }
 
 /*
- * Chain list function for testing buffer lists
+* Chain list function for testing buffer lists
  */
 static GstFlowReturn
-rtp_pipeline_chain_list (GstPad * pad, GstObject * parent, GstBufferList * list)
+rtp_pipeline_chain_list (GstPad* pad, GstObject* parent, GstBufferList* list)
 {
     guint i, len;
 
     fail_if (!list);
     /*
-     * Count the size of the payload in the buffer list.
+    * Count the size of the payload in the buffer list.
      */
     len = gst_buffer_list_length (list);
     GST_LOG ("list length %u", len);
@@ -147,14 +147,14 @@ rtp_pipeline_chain_list (GstPad * pad, GstObject * parent, GstBufferList * list)
 }
 
 static GstFlowReturn
-rtp_pipeline_chain (GstPad * pad, GstObject * parent, GstBuffer * buf);
+rtp_pipeline_chain (GstPad* pad, GstObject* parent, GstBuffer* buf);
 
 /*
- * Enables buffer lists and adds a chain_list_function to the depayloader.
- * @param p Pointer to the RTP pipeline.
+* Enables buffer lists and adds a chain_list_function to the depayloader.
+* @param p Pointer to the RTP pipeline.
  */
 static void
-rtp_pipeline_enable_lists (rtp_pipeline * p)
+rtp_pipeline_enable_lists (rtp_pipeline* p)
 {
     GstPad *pad;
 
@@ -168,7 +168,7 @@ rtp_pipeline_enable_lists (rtp_pipeline * p)
 }
 
 static GstFlowReturn
-rtp_pipeline_chain (GstPad * pad, GstObject * parent, GstBuffer * buf)
+rtp_pipeline_chain (GstPad* pad, GstObject* parent, GstBuffer* buf)
 {
     GstBufferList *list;
 
@@ -178,7 +178,7 @@ rtp_pipeline_chain (GstPad * pad, GstObject * parent, GstBuffer * buf)
 }
 
 static GstPadProbeReturn
-pay_event_probe_cb (GstPad * pad, GstPadProbeInfo * info, gpointer user_data)
+pay_event_probe_cb (GstPad* pad, GstPadProbeInfo* info, gpointer user_data)
 {
     rtp_pipeline *p = (rtp_pipeline *) user_data;
     GstEvent *event = GST_EVENT_CAST(GST_PAD_PROBE_INFO_DATA (info));
@@ -195,7 +195,7 @@ pay_event_probe_cb (GstPad * pad, GstPadProbeInfo * info, gpointer user_data)
 }
 
 static GstPadProbeReturn
-depay_event_probe_cb (GstPad * pad, GstPadProbeInfo * info, gpointer user_data)
+depay_event_probe_cb (GstPad* pad, GstPadProbeInfo* info, gpointer user_data)
 {
     rtp_pipeline *p = (rtp_pipeline *) user_data;
     GstEvent *event = GST_EVENT_CAST(GST_PAD_PROBE_INFO_DATA (info));
@@ -213,10 +213,10 @@ depay_event_probe_cb (GstPad * pad, GstPadProbeInfo * info, gpointer user_data)
 }
 
 /*
- * RTP bus callback.
+* RTP bus callback.
  */
 static gboolean
-rtp_bus_callback (GstBus * bus, GstMessage * message, gpointer data)
+rtp_bus_callback (GstBus* bus, GstMessage* message, gpointer data)
 {
     GMainLoop *mainloop = (GMainLoop *) data;
 
@@ -260,11 +260,11 @@ rtp_bus_callback (GstBus * bus, GstMessage * message, gpointer data)
 }
 
 /*
- * Runs the RTP pipeline.
- * @param p Pointer to the RTP pipeline.
+* Runs the RTP pipeline.
+* @param p Pointer to the RTP pipeline.
  */
 static void
-rtp_pipeline_run (rtp_pipeline * p)
+rtp_pipeline_run (rtp_pipeline* p)
 {
     GstFlowReturn flow_ret;
     GMainLoop *mainloop = NULL;
@@ -347,11 +347,11 @@ rtp_pipeline_run (rtp_pipeline * p)
 }
 
 /*
- * Destroys the RTP pipeline.
- * @param p Pointer to the RTP pipeline.
+* Destroys the RTP pipeline.
+* @param p Pointer to the RTP pipeline.
  */
 static void
-rtp_pipeline_destroy (rtp_pipeline * p)
+rtp_pipeline_destroy (rtp_pipeline* p)
 {
     /* Check parameters. */
     if (p == NULL) {
@@ -367,7 +367,7 @@ rtp_pipeline_destroy (rtp_pipeline * p)
 
 
 static void
-rtp_pipeline_test (const guint8 * frame_data, int frame_data_size,
+rtp_pipeline_test (const guint8* frame_data, int frame_data_size,
                    int frame_count, const char *filtercaps, const char *pay, const char *depay,
                    guint bytes_sent, guint mtu_size, gboolean use_lists)
 {
@@ -398,7 +398,7 @@ rtp_pipeline_test (const guint8 * frame_data, int frame_data_size,
 
     if (use_lists) {
         /* 'next NAL' indicator is 4 bytes */
-        fail_unless_equals_int (chain_list_bytes_received, bytes_sent * LOOP_COUNT);
+        fail_unless_equals_int (chain_list_bytes_received, bytes_sent* LOOP_COUNT);
     }
 }
 
@@ -448,6 +448,8 @@ rtp_payloading_suite (void) {
 
     suite_add_tcase(s, tc_chain);
     tcase_add_test (tc_chain, rtp_klv);
+
+    return s;
 }
 
 GST_CHECK_MAIN (rtp_payloading)

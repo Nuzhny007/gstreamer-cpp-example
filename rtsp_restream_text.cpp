@@ -139,15 +139,15 @@ main(int argc, char *argv[]) {
     g_object_set(server, "service", port, NULL);
 
     /* get the mount points for this server, every server has a default object
-     * that be used to map uri mount points to media factories */
+    * that be used to map uri mount points to media factories */
     mounts = gst_rtsp_server_get_mount_points(server);
 
     str = g_strdup_printf("( appsrc name=mysrc ! rtpklvpay name=pay0 pt=98 )");
 
     /* make a media factory for a test stream. The default media factory can use
-     * gst-launch syntax to create pipelines.
-     * any launch line works as long as it contains elements named pay%d. Each
-     * element with pay%d names will be a stream */
+    * gst-launch syntax to create pipelines.
+    * any launch line works as long as it contains elements named pay%d. Each
+    * element with pay%d names will be a stream */
     factory = gst_rtsp_media_factory_new();
     gst_rtsp_media_factory_set_launch(factory, str);
     g_signal_connect (factory, "media-configure", (GCallback) media_configure_cb,

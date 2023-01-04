@@ -12,7 +12,7 @@ pkg_check_modules(GSTLIBS REQUIRED
         gstreamer-rtsp-server-1.0
         gstreamer-check-1.0)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror")
 
 # Following example at https://stackoverflow.com/questions/38959678/is-there-a-simple-gstreamer-example-for-c
@@ -21,6 +21,17 @@ set(CMAKE_CXX_STANDARD 11)
 # add extra include directories
 # gst-config.h moved to /usr/lib/x86_64-linux-gnu/gstreamer-1.0/include
 include_directories(
+        E:/gstreamer/1.0/msvc_x86_64/include/gstreamer-1.0
+        E:/gstreamer/1.0/msvc_x86_64/include/glib-2.0
+        E:/gstreamer/1.0/msvc_x86_64/lib/glib-2.0/include
+        E:/gstreamer/1.0/msvc_x86_64/include/libsoup-2.4
+        E:/gstreamer/1.0/msvc_x86_64/include/json-glib-1.0
+        E:/gstreamer/1.0/msvc_x86_64/include
+
+        /usr/include/gstreamer-1.0
+        /usr/include/libsoup-2.4
+        /usr/include/json-glib-1.0
+
         /usr/lib/x86_64-linux-gnu/glib-2.0/include
         /usr/include/glib-2.0
         /usr/local/include/gstreamer-1.0
